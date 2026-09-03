@@ -1,15 +1,30 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { CategoryFilter, type CategoryFilterValue } from "@/components/CategoryFilter";
 import { ExpenseForm } from "@/components/ExpenseForm";
 import { ExpenseList } from "@/components/ExpenseList";
 import { ExpenseTotal } from "@/components/ExpenseTotal";
+import { loadExpenses, saveExpenses } from "@/lib/storage";
 import type { Expense } from "@/types/expense";
 
 export default function Home() {
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [categoryFilter, setCategoryFilter] = useState<CategoryFilterValue>("All");
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    // Reading localStorage during render (e.g. a useState initializer) would
+    // desync server- and client-rendered HTML, since it doesn't exist on the
+    // server. Loading it here, after mount, is the correct place for it.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setExpenses(loadExpenses());
+    setIsLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    if (isLoaded) saveExpenses(expenses);
+  }, [expenses, isLoaded]);
 
   const filteredExpenses = useMemo(
     () =>
