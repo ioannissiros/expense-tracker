@@ -7,6 +7,9 @@ interface ExpenseFormProps {
   onAdd: (expense: Expense) => void;
 }
 
+const fieldClass =
+  "w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-900/10 focus:border-zinc-400 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:placeholder:text-zinc-500 dark:focus:ring-zinc-100/10 dark:focus:border-zinc-600";
+
 export function ExpenseForm({ onAdd }: ExpenseFormProps) {
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
@@ -44,8 +47,8 @@ export function ExpenseForm({ onAdd }: ExpenseFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-2">
-      <div className="flex flex-col gap-2 sm:flex-row">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-[1fr_9rem_9rem_auto]">
         <input
           type="text"
           value={description}
@@ -55,7 +58,7 @@ export function ExpenseForm({ onAdd }: ExpenseFormProps) {
           }}
           placeholder="Description"
           maxLength={200}
-          className="flex-1 rounded border border-zinc-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-zinc-400 dark:border-zinc-700 dark:bg-zinc-900"
+          className={fieldClass}
         />
         <input
           type="number"
@@ -67,12 +70,12 @@ export function ExpenseForm({ onAdd }: ExpenseFormProps) {
             setError(null);
           }}
           placeholder="Amount"
-          className="w-full rounded border border-zinc-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-zinc-400 sm:w-32 dark:border-zinc-700 dark:bg-zinc-900"
+          className={fieldClass}
         />
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value as Category)}
-          className="w-full rounded border border-zinc-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-zinc-400 sm:w-40 dark:border-zinc-700 dark:bg-zinc-900"
+          className={fieldClass}
         >
           {CATEGORIES.map((c) => (
             <option key={c} value={c}>
@@ -82,12 +85,16 @@ export function ExpenseForm({ onAdd }: ExpenseFormProps) {
         </select>
         <button
           type="submit"
-          className="rounded bg-zinc-900 px-4 py-2 text-white hover:bg-zinc-700 focus:outline-none focus:ring-2 focus:ring-zinc-400 dark:bg-zinc-50 dark:text-black dark:hover:bg-zinc-300"
+          className="inline-flex items-center justify-center rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-zinc-700 focus:outline-none focus:ring-2 focus:ring-zinc-900/20 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
         >
           Add Expense
         </button>
       </div>
-      {error && <p className="text-sm text-red-600 dark:text-red-400">{error}</p>}
+      {error && (
+        <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700 dark:bg-red-500/10 dark:text-red-400">
+          {error}
+        </p>
+      )}
     </form>
   );
 }

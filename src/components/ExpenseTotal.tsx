@@ -4,8 +4,11 @@ interface ExpenseTotalProps {
 
 export function ExpenseTotal({ total }: ExpenseTotalProps) {
   return (
-    <p className="text-lg font-medium">
-      Total: <span>€{total.toFixed(2)}</span>
-    </p>
+    <div>
+      <p className="text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+        Total
+      </p>
+      <p className="text-2xl font-semibold tabular-nums">€{total.toFixed(2)}</p>
+    </div>
   );
 }

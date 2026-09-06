@@ -48,18 +48,32 @@ export default function Home() {
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-6 px-4 py-8">
-      <h1 className="text-2xl font-semibold">Expense Tracker</h1>
-      <ExpenseForm onAdd={handleAdd} />
-      <div className="flex items-center justify-between">
-        <ExpenseTotal total={total} />
-        <CategoryFilter value={categoryFilter} onChange={setCategoryFilter} />
+    <div className="flex flex-1 justify-center bg-zinc-50 px-4 py-10 dark:bg-zinc-950">
+      <div className="h-fit w-full max-w-2xl rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900 sm:p-8">
+        <div>
+          <h1 className="text-2xl font-semibold tracking-tight">Expense Tracker</h1>
+          <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+            Track what you spend, filtered by category.
+          </p>
+        </div>
+
+        <div className="mt-6">
+          <ExpenseForm onAdd={handleAdd} />
+        </div>
+
+        <div className="mt-6 flex items-center justify-between border-t border-zinc-100 pt-6 dark:border-zinc-800">
+          <ExpenseTotal total={total} />
+          <CategoryFilter value={categoryFilter} onChange={setCategoryFilter} />
+        </div>
+
+        <div className="mt-2">
+          <ExpenseList
+            expenses={filteredExpenses}
+            hasAnyExpenses={expenses.length > 0}
+            onDelete={handleDelete}
+          />
+        </div>
       </div>
-      <ExpenseList
-        expenses={filteredExpenses}
-        hasAnyExpenses={expenses.length > 0}
-        onDelete={handleDelete}
-      />
     </div>
   );
 }
