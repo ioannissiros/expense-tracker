@@ -66,7 +66,13 @@ npm run lint    # ESLint
 
 ## Screenshots
 
-*(placeholder — add screenshots of the app here, e.g. `docs/screenshot-light.png` and `docs/screenshot-dark.png`)*
+| Light | Dark |
+|---|---|
+| ![Light mode](docs/screenshot-light.png) | ![Dark mode](docs/screenshot-dark.png) |
+
+| Mobile |
+|---|
+| ![Mobile layout](docs/screenshot-mobile.png) |
 
 ## What I Learned
 

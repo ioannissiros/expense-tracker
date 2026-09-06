@@ -5,12 +5,16 @@ interface ExpenseListItemProps {
   onDelete: (id: string) => void;
 }
 
+// Full class strings kept static (not string-interpolated) so Tailwind's
+// production build scanner can find them -- interpolating a partial class
+// name via a template literal caused it to stop scanning the rest of this
+// file, silently dropping the classes below in the production build only.
 const CATEGORY_BADGE_CLASS: Record<Category, string> = {
-  Food: "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400",
-  Transport: "bg-blue-100 text-blue-700 dark:bg-blue-500/10 dark:text-blue-400",
-  Entertainment: "bg-purple-100 text-purple-700 dark:bg-purple-500/10 dark:text-purple-400",
-  Bills: "bg-amber-100 text-amber-700 dark:bg-amber-500/10 dark:text-amber-400",
-  Other: "bg-zinc-100 text-zinc-700 dark:bg-zinc-500/10 dark:text-zinc-400",
+  Food: "shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium bg-emerald-100 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400",
+  Transport: "shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium bg-blue-100 text-blue-700 dark:bg-blue-500/10 dark:text-blue-400",
+  Entertainment: "shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium bg-purple-100 text-purple-700 dark:bg-purple-500/10 dark:text-purple-400",
+  Bills: "shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium bg-amber-100 text-amber-700 dark:bg-amber-500/10 dark:text-amber-400",
+  Other: "shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium bg-zinc-100 text-zinc-700 dark:bg-zinc-500/10 dark:text-zinc-400",
 };
 
 export function ExpenseListItem({ expense, onDelete }: ExpenseListItemProps) {
@@ -19,9 +23,7 @@ export function ExpenseListItem({ expense, onDelete }: ExpenseListItemProps) {
       <span className="w-full min-w-0 truncate text-sm text-zinc-900 dark:text-zinc-100 sm:w-auto sm:flex-1">
         {expense.description}
       </span>
-      <span
-        className={`shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium ${CATEGORY_BADGE_CLASS[expense.category]}`}
-      >
+      <span className={CATEGORY_BADGE_CLASS[expense.category]}>
         {expense.category}
       </span>
       <span className="ml-auto shrink-0 text-right text-sm font-semibold tabular-nums text-zinc-900 dark:text-zinc-100 sm:ml-0 sm:w-20">
