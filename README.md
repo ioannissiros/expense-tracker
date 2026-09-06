@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Expense Tracker
 
-## Getting Started
+A small, focused personal expense tracker built with Next.js, TypeScript, and Tailwind CSS. No backend, no database, no accounts — everything lives in the browser via `localStorage`.
 
-First, run the development server:
+## Problem
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Most people don't track day-to-day spending because the tools available are either too heavy (full budgeting apps with accounts, sync, and categorization ML) or don't exist at all (a spreadsheet nobody opens). This app is the smallest useful middle ground: add an expense in a few seconds, see the total instantly, no sign-up.
+
+## Features
+
+- Add an expense with a description, amount, and category
+- View all expenses, most recent first
+- Delete an expense
+- Filter expenses by category
+- See the total for the currently filtered view (not a fixed grand total)
+- Data persists across page refreshes via `localStorage`
+- Inline validation (empty description, non-positive amount) and empty-state messaging
+- Responsive layout, works in light and dark mode
+
+## Tech Stack
+
+- [Next.js](https://nextjs.org) (App Router)
+- [React](https://react.dev) + [TypeScript](https://www.typescriptlang.org)
+- [Tailwind CSS](https://tailwindcss.com)
+- Browser `localStorage` for persistence — no database, no backend, no external APIs
+
+## Architecture
+
+```
+src/
+├── app/
+│   ├── layout.tsx        # root layout, fonts, metadata
+│   ├── page.tsx          # owns all state; composes the components below
+│   └── globals.css
+├── components/
+│   ├── ExpenseForm.tsx       # controlled form + validation
+│   ├── ExpenseList.tsx       # list or empty state
+│   ├── ExpenseListItem.tsx   # one row + delete button
+│   ├── CategoryFilter.tsx    # category select
+│   └── ExpenseTotal.tsx      # total display
+├── lib/
+│   └── storage.ts        # localStorage read/write, with safe fallbacks
+└── types/
+    └── expense.ts        # Expense interface, Category union, CATEGORIES list
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+State lives in a single place (`page.tsx`) and flows down as props; components communicate back up through callbacks (`onAdd`, `onDelete`, `onFilterChange`). There's no global store or Context — the component tree is shallow enough that prop passing is simpler and easier to follow than any state-management abstraction would be.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Running Locally
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+git clone https://github.com/ioannissiros/expense-tracker.git
+cd expense-tracker
+npm install
+npm run dev
+```
 
-## Learn More
+Open [http://localhost:3000](http://localhost:3000).
 
-To learn more about Next.js, take a look at the following resources:
+Other scripts:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run build   # production build
+npm run lint    # ESLint
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Screenshots
 
-## Deploy on Vercel
+*(placeholder — add screenshots of the app here, e.g. `docs/screenshot-light.png` and `docs/screenshot-dark.png`)*
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## What I Learned
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Reading from `localStorage` on mount has to happen in a `useEffect`, not during render — the server has no `localStorage`, so reading it during render (e.g. a `useState` initializer) would make the server-rendered HTML disagree with the client on first paint.
+- A native `<input type="number">` with `step="0.01"` silently blocks form submission for values like `12.999` via the browser's own constraint validation, before any of my JavaScript runs. Switching to `step="any"` and rounding the value myself on submit is what actually implements "handle extra decimals gracefully" — the bug never showed up in `tsc`, `lint`, or `build`, only in the running browser.
+- Deriving a TypeScript union type from a runtime array (`(typeof CATEGORIES)[number]`) instead of declaring them separately keeps the type and the valid values from ever drifting apart.
+
+## Future Improvements
+
+Deliberately left out of this version to keep scope tight — not oversights:
+
+- Editing an existing expense (currently delete-and-re-add covers the same need)
+- Multiple currencies
+- Exporting data (CSV/PDF)
+- Recurring expenses / budgets / spending forecasts
+- Custom, user-defined categories
