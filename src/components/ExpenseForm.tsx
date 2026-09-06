@@ -49,7 +49,10 @@ export function ExpenseForm({ onAdd }: ExpenseFormProps) {
         <input
           type="text"
           value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          onChange={(e) => {
+            setDescription(e.target.value);
+            setError(null);
+          }}
           placeholder="Description"
           maxLength={200}
           className="flex-1 rounded border border-zinc-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-zinc-400 dark:border-zinc-700 dark:bg-zinc-900"
@@ -59,7 +62,10 @@ export function ExpenseForm({ onAdd }: ExpenseFormProps) {
           step="any"
           min="0.01"
           value={amount}
-          onChange={(e) => setAmount(e.target.value)}
+          onChange={(e) => {
+            setAmount(e.target.value);
+            setError(null);
+          }}
           placeholder="Amount"
           className="w-full rounded border border-zinc-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-zinc-400 sm:w-32 dark:border-zinc-700 dark:bg-zinc-900"
         />
