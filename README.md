@@ -2,6 +2,8 @@
 
 A small, focused personal expense tracker built with Next.js, TypeScript, and Tailwind CSS. No backend, no database, no accounts — everything lives in the browser via `localStorage`.
 
+**Live demo:** [expense-tracker-avylo1.vercel.app](https://expense-tracker-avylo1.vercel.app)
+
 ## Problem
 
 Most people don't track day-to-day spending because the tools available are either too heavy (full budgeting apps with accounts, sync, and categorization ML) or don't exist at all (a spreadsheet nobody opens). This app is the smallest useful middle ground: add an expense in a few seconds, see the total instantly, no sign-up.
