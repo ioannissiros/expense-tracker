@@ -19,7 +19,7 @@ export function ExpenseListItem({ expense, onDelete }: ExpenseListItemProps) {
         type="button"
         onClick={() => onDelete(expense.id)}
         aria-label={`Delete ${expense.description}`}
-        className="text-zinc-400 hover:text-red-600 dark:hover:text-red-400"
+        className="rounded text-zinc-400 hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-zinc-400 dark:hover:text-red-400"
       >
         ✕
       </button>
