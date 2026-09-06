@@ -24,6 +24,7 @@ Most people don't track day-to-day spending because the tools available are eith
 - [Next.js](https://nextjs.org) (App Router)
 - [React](https://react.dev) + [TypeScript](https://www.typescriptlang.org)
 - [Tailwind CSS](https://tailwindcss.com)
+- [Vitest](https://vitest.dev) + [React Testing Library](https://testing-library.com/react) for tests
 - Browser `localStorage` for persistence — no database, no backend, no external APIs
 
 ## Architecture
@@ -62,8 +63,10 @@ Open [http://localhost:3000](http://localhost:3000).
 Other scripts:
 
 ```bash
-npm run build   # production build
-npm run lint    # ESLint
+npm run build       # production build
+npm run lint        # ESLint
+npm test            # run the test suite once
+npm run test:watch  # re-run tests on file changes
 ```
 
 ## Screenshots
