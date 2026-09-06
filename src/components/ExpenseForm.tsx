@@ -32,7 +32,7 @@ export function ExpenseForm({ onAdd }: ExpenseFormProps) {
     onAdd({
       id: crypto.randomUUID(),
       description: trimmedDescription,
-      amount: parsedAmount,
+      amount: Math.round(parsedAmount * 100) / 100,
       category,
       createdAt: Date.now(),
     });
@@ -51,11 +51,12 @@ export function ExpenseForm({ onAdd }: ExpenseFormProps) {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Description"
+          maxLength={200}
           className="flex-1 rounded border border-zinc-300 px-3 py-2 dark:border-zinc-700 dark:bg-zinc-900"
         />
         <input
           type="number"
-          step="0.01"
+          step="any"
           min="0.01"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
